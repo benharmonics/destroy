@@ -27,7 +27,9 @@ fn main() {
   }
   let delete = flags.iter().any(|&s| s == "-d" || s == "--delete");
   for file in files {
-    shred(&file, &mut rng).unwrap_or_else(|e| eprintln!("Failed to shred file {e}"));
+    for _ in 0..10 {
+      shred(&file, &mut rng).unwrap_or_else(|e| eprintln!("Failed to shred file {e}"));
+    }
     if delete {
       fs::remove_file(file).unwrap_or_else(|e| eprintln!("{}", e));
     }
